@@ -3,7 +3,7 @@ import { FacilityService } from './facility.service';
 import sendResponse from '../../utils/sendResponse';
 import catchAsync from '../../utils/catchAsync';
 
-const getAllFacility: RequestHandler = catchAsync(async (req, res, next) => {
+const getAllFacility: RequestHandler = catchAsync(async (req, res) => {
   const result = await FacilityService.getAllFacilityFromDB();
 
   return sendResponse(res, {
@@ -15,8 +15,17 @@ const getAllFacility: RequestHandler = catchAsync(async (req, res, next) => {
     data: result,
   });
 });
+const getSingleFacility: RequestHandler = catchAsync(async (req, res) => {
+  const result = await FacilityService.getSingleFacilityFromDB(req.params?.id);
+  return sendResponse(res, {
+    success: true,
+    statusCode: 200,
+    message: 'Facility is retrive successfully',
+    data: result,
+  });
+});
 
-const createFacility: RequestHandler = catchAsync(async (req, res, next) => {
+const createFacility: RequestHandler = catchAsync(async (req, res) => {
   const data = req.body;
   const result = await FacilityService.createFacilityIntoDB(data);
 
@@ -28,7 +37,7 @@ const createFacility: RequestHandler = catchAsync(async (req, res, next) => {
   });
 });
 
-const updateFacility: RequestHandler = catchAsync(async (req, res, next) => {
+const updateFacility: RequestHandler = catchAsync(async (req, res) => {
   const { id } = req.params;
   const updatedData = req.body;
   const result = await FacilityService.updateFacilityIntoDB(id, updatedData);
@@ -41,8 +50,9 @@ const updateFacility: RequestHandler = catchAsync(async (req, res, next) => {
   });
 });
 
-const deleteFacility: RequestHandler = catchAsync(async (req, res, next) => {
+const deleteFacility: RequestHandler = catchAsync(async (req, res) => {
   const { id } = req.params;
+  console.log(req.params, 'kk');
   const result = await FacilityService.deleteFacilityFromDB(id);
   return sendResponse(res, {
     success: true,
@@ -57,4 +67,5 @@ export const FacilityController = {
   updateFacility,
   deleteFacility,
   getAllFacility,
+  getSingleFacility,
 };

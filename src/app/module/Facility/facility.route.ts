@@ -10,10 +10,10 @@ import {
 const router = Router();
 
 router.get('/', FacilityController.getAllFacility);
-
+router.get('/:id', FacilityController.getSingleFacility);
 router.post(
   '/',
-  auth('admin'),
+  // auth('admin'),
   validationMiddleware(facilityZodValidationSchema),
   FacilityController.createFacility,
 );

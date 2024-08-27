@@ -15,6 +15,7 @@ router.post(
 
 router.get('/', auth('admin'), BookingController.getAllBooking);
 router.get('/user', auth('user'), BookingController.getAllBookingByUser);
+router.get('/user/:id', auth('user'), BookingController.getSingleBookingByUser);
 
 router.delete('/:id', auth('user'), BookingController.deleteBookingByUser);
 

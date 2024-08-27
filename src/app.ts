@@ -3,9 +3,19 @@ import cors from 'cors';
 import router from './app/router';
 import cookieParser from 'cookie-parser';
 import globalErrorHandler from './app/Middleware/globalErrorHandler';
-import notFound from './app/Middleware/notfound';
+import { notFound } from './app/utils/notFound';
+
 const app: Application = express();
-app.use(cors());
+
+const corsOptions = {
+  origin: ['http://localhost:5173', 'http://localhost:3000'],
+  methods: ['GET', 'POST', 'PATCH', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true,
+};
+
+app.use(cors(corsOptions));
+
 app.use(express.json());
 app.use(cookieParser());
 app.use('/api', router);

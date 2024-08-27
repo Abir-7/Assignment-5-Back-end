@@ -1,10 +1,7 @@
-export interface T_User {
-  name: string;
+export interface IUser {
   email: string;
-  password: string; // Must be hashed
-  phone: string;
+  password: string; // Must be hashed;
   role: 'admin' | 'user';
-  address: string;
 }
 
-export type T_UserRole = 'admin' | 'user';
+export type T_UserRole = 'superAdmin' | 'admin' | 'user';

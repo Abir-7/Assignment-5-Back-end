@@ -31,7 +31,7 @@ facilitySchema.statics.isFacitityExist = async (id) => {
   if (isFaciExist) {
     return true;
   } else {
-    false;
+    return false;
   }
 };
 

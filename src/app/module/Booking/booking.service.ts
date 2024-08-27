@@ -56,10 +56,30 @@ const getAllBookingFromDb = async () => {
 const getAllBookingByUserFromDb = async (id: string) => {
   const result = await Booking.find({
     user: id,
-  }).populate('facility');
+  })
+    .populate('facility')
+    .populate({
+      path: 'user',
+      select: 'email', // Specify the fields you want to include
+    });
 
   return result;
 };
+//get single booking by user
+const getSingleBookingByUserFromDb = async (id: string, bID: string) => {
+  const result = await Booking.findOne({
+    user: id,
+    _id: bID,
+  })
+    .populate('facility')
+    .populate({
+      path: 'user',
+      select: 'email', // Specify the fields you want to include
+    });
+
+  return result;
+};
+
 //cencel booking
 const deleteBookingByUserFromDb = async (userID: string, bookingID: string) => {
   const isBookingExist = await Booking.findOne({
@@ -79,10 +99,13 @@ const deleteBookingByUserFromDb = async (userID: string, bookingID: string) => {
   return result;
 };
 //get available time
-const getAvailableTimeSlotsFromBooking = async (givenDate: string) => {
+const getAvailableTimeSlotsFromBooking = async (
+  givenDate: string,
+  id: string,
+) => {
   const date = givenDate;
 
-  const bookings = await Booking.find({ date: date }).select([
+  const bookings = await Booking.find({ date: date, facility: id }).select([
     'date',
     'startTime',
     'endTime',
@@ -99,4 +122,5 @@ export const BookingService = {
   getAllBookingByUserFromDb,
   deleteBookingByUserFromDb,
   getAvailableTimeSlotsFromBooking,
+  getSingleBookingByUserFromDb,
 };

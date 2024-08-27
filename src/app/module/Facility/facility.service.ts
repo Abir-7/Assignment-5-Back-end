@@ -8,6 +8,18 @@ const getAllFacilityFromDB = async () => {
   return result;
 };
 
+const getSingleFacilityFromDB = async (id: string) => {
+  const result = await Facility.findOne({ _id: id });
+  if (result?.isDeleted) {
+    throw new AppError(
+      httpStatus.BAD_REQUEST,
+      'You can not see Details. Facility is deleted',
+    );
+  } else {
+    return result;
+  }
+};
+
 const createFacilityIntoDB = async (data: T_Facility) => {
   const result = await Facility.create(data);
   return result;
@@ -36,6 +48,7 @@ const updateFacilityIntoDB = async (id: string, data: Partial<T_Facility>) => {
 };
 
 const deleteFacilityFromDB = async (id: string) => {
+  console.log(id);
   if (!(await Facility.isFacitityExist(id))) {
     throw new AppError(
       httpStatus.NOT_FOUND,
@@ -59,4 +72,5 @@ export const FacilityService = {
   updateFacilityIntoDB,
   deleteFacilityFromDB,
   getAllFacilityFromDB,
+  getSingleFacilityFromDB,
 };

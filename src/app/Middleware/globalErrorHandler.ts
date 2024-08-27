@@ -1,4 +1,5 @@
-import { ErrorRequestHandler } from 'express';
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import e, { ErrorRequestHandler } from 'express';
 import { TErrorSourece } from '../errors/error.interface';
 import { ZodError } from 'zod';
 import { handleZodError } from '../errors/handleZodError';

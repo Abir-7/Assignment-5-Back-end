@@ -10,12 +10,13 @@ import { User } from '../module/user/user.model';
 export const auth = (...userRole: T_UserRole[]) => {
   return catchAsync(async (req: Request, res: Response, next: NextFunction) => {
     const tokenData = req.headers.authorization;
+
     const token = tokenData?.split(' ')[1];
 
     if (!token) {
       throw new AppError(
         httpStatus.UNAUTHORIZED,
-        'You have no access to this route',
+        'You have no access to this route1',
       );
     }
 
@@ -31,7 +32,7 @@ export const auth = (...userRole: T_UserRole[]) => {
     if (!user) {
       throw new AppError(
         httpStatus.NOT_FOUND,
-        'You have no access to this route',
+        'You have no access to this route2',
         '',
       );
     }
@@ -39,7 +40,7 @@ export const auth = (...userRole: T_UserRole[]) => {
     if (userRole && !userRole.includes(role)) {
       throw new AppError(
         httpStatus.UNAUTHORIZED,
-        'You have no access to this route',
+        'You have no access to this route3',
         '',
       );
     }

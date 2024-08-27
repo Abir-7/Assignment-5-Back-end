@@ -1,25 +1,24 @@
 import { model, Schema } from 'mongoose';
-import { T_User } from './user.interface';
+
 import bcrypt from 'bcrypt';
 import config from '../../config';
 import AppError from '../../errors/AppError';
 import httpstatus from 'http-status';
 import { userRole } from './user.const';
-export const userSchema = new Schema<T_User>({
-  name: { type: String, required: [true, 'User name is required'] },
+import { IUser } from './user.interface';
+export const userSchema = new Schema<IUser>({
   email: {
     type: String,
     required: [true, 'User email is required'],
     unique: true,
   },
   password: { type: String, required: [true, 'User password is required'] },
-  phone: { type: String, required: [true, 'User mobile is required'] },
   role: {
     type: String,
     enum: userRole,
     required: [true, 'User role is required'],
+    default: 'user',
   },
-  address: { type: String, required: [true, 'User address is required'] },
 });
 
 userSchema.pre('save', async function (next) {
@@ -37,4 +36,4 @@ userSchema.pre('save', async function (next) {
 userSchema.post('save', async function (data) {
   data.password = '**********************';
 });
-export const User = model<T_User>('User', userSchema);
+export const User = model<IUser>('User', userSchema);
