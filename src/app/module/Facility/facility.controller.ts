@@ -2,25 +2,37 @@ import { RequestHandler } from 'express';
 import { FacilityService } from './facility.service';
 import sendResponse from '../../utils/sendResponse';
 import catchAsync from '../../utils/catchAsync';
+import httpStatus from 'http-status';
 
 const getAllFacility: RequestHandler = catchAsync(async (req, res) => {
-  const result = await FacilityService.getAllFacilityFromDB();
+  const query = req.query;
+  console.log(query);
+  const result = await FacilityService.getAllFacilityFromDB(query);
 
   return sendResponse(res, {
-    success: result.length ? true : false,
-    statusCode: result.length ? 200 : 404,
-    message: result.length
-      ? 'Facilities retrieved successfully'
-      : 'No Data Found',
-    data: result,
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Facilities are retrieved succesfully',
+    meta: result.meta,
+    data: result.result,
   });
 });
+
 const getSingleFacility: RequestHandler = catchAsync(async (req, res) => {
   const result = await FacilityService.getSingleFacilityFromDB(req.params?.id);
   return sendResponse(res, {
     success: true,
     statusCode: 200,
     message: 'Facility is retrive successfully',
+    data: result,
+  });
+});
+const getTopFacility: RequestHandler = catchAsync(async (req, res) => {
+  const result = await FacilityService.getTopFacilityFromDB();
+  return sendResponse(res, {
+    success: true,
+    statusCode: 200,
+    message: 'Top Facility is retrive successfully',
     data: result,
   });
 });
@@ -52,7 +64,7 @@ const updateFacility: RequestHandler = catchAsync(async (req, res) => {
 
 const deleteFacility: RequestHandler = catchAsync(async (req, res) => {
   const { id } = req.params;
-  console.log(req.params, 'kk');
+
   const result = await FacilityService.deleteFacilityFromDB(id);
   return sendResponse(res, {
     success: true,
@@ -68,4 +80,5 @@ export const FacilityController = {
   deleteFacility,
   getAllFacility,
   getSingleFacility,
+  getTopFacility,
 };

@@ -12,6 +12,7 @@ export interface ICustomer {
   phone: number;
   address: string;
   user: Types.ObjectId;
+  photo: string;
 }
 
 export interface ICustomerUpdate {

@@ -6,6 +6,7 @@ export interface T_Facility {
   pricePerHour: number;
   location: string;
   isDeleted: boolean;
+  photo: string;
 }
 
 export interface T_Facility_Find_Methods extends Model<T_Facility> {

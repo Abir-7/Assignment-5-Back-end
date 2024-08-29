@@ -10,6 +10,7 @@ import {
 const router = Router();
 
 router.get('/', FacilityController.getAllFacility);
+router.get('/topFacilities', FacilityController.getTopFacility);
 router.get('/:id', FacilityController.getSingleFacility);
 router.post(
   '/',

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Response } from 'express';
 
 export type TResponse<T> = {
@@ -5,6 +6,7 @@ export type TResponse<T> = {
   success: boolean;
   message?: string;
   data: T;
+  meta?: any;
 };
 
 const sendResponse = <T>(res: Response, data: TResponse<T>) => {
@@ -12,6 +14,7 @@ const sendResponse = <T>(res: Response, data: TResponse<T>) => {
     success: data.success,
     statusCode: data.statusCode,
     message: data.message,
+    meta: data.meta,
     data: data.data,
   });
 };

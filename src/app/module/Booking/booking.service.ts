@@ -8,6 +8,8 @@ import {
   getTotalTimeInHour,
   hasTimeConflict,
 } from './booking.utils';
+import { initiatePayment } from '../Payment/payment.utils';
+import { Customer } from '../Customers/customer.model';
 
 //create booking
 const createBookingIntoDb = async (data: T_Booking) => {
@@ -41,10 +43,31 @@ const createBookingIntoDb = async (data: T_Booking) => {
   const totalTime = getTotalTimeInHour(data.startTime, data.endTime);
   data.payableAmount = totalTime * isFacilityExist.pricePerHour;
 
-  //create booking
-  const result = await Booking.create(data);
+  const customer = await Customer.findOne({ user: data.user });
+  console.log(customer);
+  const customerData = {
+    name: `${customer?.name.firstName} ${customer?.name.middleName} ${customer?.name.lastName}`,
+    email: customer?.email,
+    address: customer?.address,
+    phone: customer?.phone,
+  };
+  const bookingData = data;
 
-  return result;
+  const txn = `TXN-${Date.now()}`;
+
+  //create booking
+  const result = (
+    await (await Booking.create({ ...data, txnID: txn })).populate('facility')
+  ).populate('user');
+
+  const paymentInfo = await initiatePayment({
+    bookingData,
+    txn,
+    customerData,
+    bookingId: (await result)._id,
+  });
+  console.log(data, paymentInfo.data);
+  return { ...result, payLink: paymentInfo.data.payment_url };
 };
 
 //get all booking by admin

@@ -8,6 +8,8 @@ export interface T_Booking {
   user: Types.ObjectId;
   isBooked: T_BookedStatus;
   payableAmount: number;
+  txnID: string;
+  paymentStatus: string;
 }
 
 export type T_BookTime = {

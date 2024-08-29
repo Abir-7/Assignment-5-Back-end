@@ -33,6 +33,12 @@ export const customerSchema = new Schema<ICustomer, CustomerModel>({
     required: [true, 'Address is required.'],
     trim: true,
   },
+  photo: {
+    type: String,
+
+    default:
+      'https://img.freepik.com/free-vector/hand-drawn-side-profile-cartoon-illustration_23-2150503804.jpg?t=st=1724927284~exp=1724930884~hmac=a42764fe18cff7567042535bfb6aec564591400f29408485d5cc8eed46b42d9a&w=740',
+  },
   user: {
     type: Schema.Types.ObjectId,
     ref: 'User',

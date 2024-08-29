@@ -6,6 +6,7 @@ import { BookingRouter } from '../module/Booking/booking.route';
 import { AvailableTimeRouter } from '../module/Booking/availableTime.route';
 import { UserRouter } from '../module/user/user.route';
 import { testimonialRouter } from '../module/Testimonial/testimonial.route';
+import { paymentRouter } from '../module/Payment/payment.route';
 
 const router = Router();
 
@@ -16,6 +17,7 @@ const moduleRoutes = [
   { path: '/bookings', route: BookingRouter },
   { path: '/check-availability', route: AvailableTimeRouter },
   { path: '/testimonial', route: testimonialRouter },
+  { path: '/payment', route: paymentRouter },
 ];
 moduleRoutes.forEach((route) => router.use(route.path, route.route));
 export default router;

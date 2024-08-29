@@ -1,5 +1,5 @@
 import { model, Schema } from 'mongoose';
-import { ITestimonial } from './Testimonial.interface';
+import { ITestimonial } from './testimonial.interface';
 
 const testimonialSchema = new Schema<ITestimonial>({
   user: {
@@ -21,6 +21,9 @@ const testimonialSchema = new Schema<ITestimonial>({
   comment: {
     type: String,
     required: [true, 'Comment is required'],
+  },
+  photo: {
+    type: String,
   },
 });
 export const Testimonial = model<ITestimonial>(

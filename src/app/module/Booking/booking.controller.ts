@@ -13,7 +13,7 @@ const createBooking: RequestHandler = catchAsync(async (req, res) => {
   return sendResponse(res, {
     success: true,
     statusCode: 200,
-    message: 'Booking created successfully',
+    message: 'Booking placed. Redirecting to payment page',
     data: result,
   });
 });

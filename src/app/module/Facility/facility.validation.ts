@@ -17,6 +17,11 @@ export const facilityZodValidationSchema = z.object({
       required_error: 'Location is required',
       invalid_type_error: 'Location must be a string',
     }),
+    photo: z
+      .string({
+        invalid_type_error: 'Photo must be a string',
+      })
+      .optional(),
   }),
 });
 

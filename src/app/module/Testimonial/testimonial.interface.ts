@@ -5,4 +5,5 @@ export interface ITestimonial {
   rating: number;
   comment: string;
   bookingId: Types.ObjectId;
+  photo: string;
 }

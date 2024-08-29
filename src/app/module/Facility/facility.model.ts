@@ -14,6 +14,11 @@ export const facilitySchema = new Schema<T_Facility, T_Facility_Find_Methods>({
     type: Number,
     required: [true, 'Price per hour is required'],
   },
+  photo: {
+    type: String,
+    default:
+      'https://i.ibb.co/BnhCZc5/sport-club-sports-equipment-pink-background-vector-21104652.webp',
+  },
   location: { type: String, required: [true, 'Location is required'] },
   isDeleted: { type: Boolean, default: false },
 });

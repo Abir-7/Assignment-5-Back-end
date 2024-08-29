@@ -1,4 +1,4 @@
-import { model, Schema, Types } from 'mongoose';
+import { model, Schema } from 'mongoose';
 import { T_Booking } from './booking.interface';
 
 import { bookingStatus } from './booking.const';
@@ -16,6 +16,8 @@ export const bookingSchema = new Schema<T_Booking>({
   },
   date: { type: String, required: [true, 'Booking date is required'] },
   startTime: { type: String, required: [true, 'Start time is required'] },
+  txnID: { type: String, required: [true, 'TxnID is required'] },
+  paymentStatus: { type: String, default: 'unpaid' },
   endTime: { type: String, required: [true, 'End time is required'] },
   payableAmount: {
     type: Number,
