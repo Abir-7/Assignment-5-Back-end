@@ -21,7 +21,7 @@ const initiatePayment = (data) => __awaiter(void 0, void 0, void 0, function* ()
         store_id: config_1.default.Store_ID,
         signature_key: config_1.default.Signature_Key,
         tran_id: data === null || data === void 0 ? void 0 : data.txn,
-        success_url: `http://localhost:5000/api/payment/confirmation?id=${data.bookingId}`,
+        success_url: `https://assignment-5-back-end-tawny.vercel.app/api/payment/confirmation?id=${data.bookingId}`,
         fail_url: 'http://www.merchantdomain.com/failedpage.html',
         cancel_url: 'http://www.merchantdomain.com/cancellpage.html',
         amount: data.bookingData.payableAmount,

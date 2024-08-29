@@ -8,7 +8,11 @@ import { notFound } from './app/utils/notFound';
 const app: Application = express();
 
 const corsOptions = {
-  origin: ['http://localhost:5173', 'http://localhost:3000'],
+  origin: [
+    'http://localhost:5173',
+    'http://localhost:3000',
+    'https://chipper-longma-698a80.netlify.app',
+  ],
   methods: ['GET', 'POST', 'PATCH', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true,

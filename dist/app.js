@@ -11,7 +11,11 @@ const globalErrorHandler_1 = __importDefault(require("./app/Middleware/globalErr
 const notFound_1 = require("./app/utils/notFound");
 const app = (0, express_1.default)();
 const corsOptions = {
-    origin: ['http://localhost:5173', 'http://localhost:3000'],
+    origin: [
+        'http://localhost:5173',
+        'http://localhost:3000',
+        'https://chipper-longma-698a80.netlify.app',
+    ],
     methods: ['GET', 'POST', 'PATCH', 'PUT', 'DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true,

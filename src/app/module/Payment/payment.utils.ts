@@ -6,7 +6,7 @@ export const initiatePayment = async (data: any) => {
     store_id: config.Store_ID,
     signature_key: config.Signature_Key,
     tran_id: data?.txn,
-    success_url: `http://localhost:5000/api/payment/confirmation?id=${data.bookingId}`,
+    success_url: `https://assignment-5-back-end-tawny.vercel.app/api/payment/confirmation?id=${data.bookingId}`,
     fail_url: 'http://www.merchantdomain.com/failedpage.html',
     cancel_url: 'http://www.merchantdomain.com/cancellpage.html',
     amount: data.bookingData.payableAmount,

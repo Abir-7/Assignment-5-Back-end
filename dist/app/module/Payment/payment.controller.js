@@ -98,7 +98,7 @@ exports.paymentConfirm = (0, catchAsync_1.default)((req, res) => __awaiter(void 
                 <p>Thank you for booking with us. We look forward to seeing you!</p>
             </div>
             <div class="footer">
-                &copy; 2024 Dream Sports. All rights reserved.
+                &copy; 2024 Dream Sports. All rights reserved. <a href='https://chipper-longma-698a80.netlify.app'>Home</a>
             </div>
         </div>
     </body>
