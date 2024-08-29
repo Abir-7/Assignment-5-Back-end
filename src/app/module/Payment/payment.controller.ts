@@ -8,7 +8,7 @@ export const paymentConfirm = catchAsync(async (req, res) => {
   const bookingData = await Booking.findById(id)
     .populate('facility')
     .populate('user');
-  console.log(bookingData);
+
   if (!bookingData) {
     return res.status(404).send('<h1>Booking not found</h1>');
   }

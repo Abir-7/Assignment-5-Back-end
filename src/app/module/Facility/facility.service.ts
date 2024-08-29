@@ -86,6 +86,7 @@ const createFacilityIntoDB = async (data: T_Facility) => {
 };
 
 const updateFacilityIntoDB = async (id: string, data: Partial<T_Facility>) => {
+  console.log(data);
   if (!(await Facility.isFacitityExist(id))) {
     throw new AppError(
       httpStatus.NOT_FOUND,
@@ -104,6 +105,7 @@ const updateFacilityIntoDB = async (id: string, data: Partial<T_Facility>) => {
   const result = await Facility.findOneAndUpdate({ _id: id }, data, {
     new: true,
   });
+  console.log(result);
   return result;
 };
 

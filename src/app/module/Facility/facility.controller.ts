@@ -6,7 +6,7 @@ import httpStatus from 'http-status';
 
 const getAllFacility: RequestHandler = catchAsync(async (req, res) => {
   const query = req.query;
-  console.log(query);
+
   const result = await FacilityService.getAllFacilityFromDB(query);
 
   return sendResponse(res, {
