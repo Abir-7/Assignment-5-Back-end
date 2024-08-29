@@ -20,20 +20,18 @@ const AppError_1 = __importDefault(require("../../errors/AppError"));
 const http_status_1 = __importDefault(require("http-status"));
 const user_const_1 = require("./user.const");
 exports.userSchema = new mongoose_1.Schema({
-    name: { type: String, required: [true, 'User name is required'] },
     email: {
         type: String,
         required: [true, 'User email is required'],
         unique: true,
     },
     password: { type: String, required: [true, 'User password is required'] },
-    phone: { type: String, required: [true, 'User mobile is required'] },
     role: {
         type: String,
         enum: user_const_1.userRole,
         required: [true, 'User role is required'],
+        default: 'user',
     },
-    address: { type: String, required: [true, 'User address is required'] },
 });
 exports.userSchema.pre('save', function (next) {
     return __awaiter(this, void 0, void 0, function* () {

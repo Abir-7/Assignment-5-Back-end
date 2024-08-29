@@ -13,6 +13,7 @@ const router = (0, express_1.Router)();
 router.post('/', (0, auth_1.auth)('user'), (0, validationMiddleware_1.default)(booking_validation_1.bookingZodValidationSchema), booking_controller_1.BookingController.createBooking);
 router.get('/', (0, auth_1.auth)('admin'), booking_controller_1.BookingController.getAllBooking);
 router.get('/user', (0, auth_1.auth)('user'), booking_controller_1.BookingController.getAllBookingByUser);
+router.get('/user/:id', (0, auth_1.auth)('user'), booking_controller_1.BookingController.getSingleBookingByUser);
 router.delete('/:id', (0, auth_1.auth)('user'), booking_controller_1.BookingController.deleteBookingByUser);
 router.get('/', booking_controller_1.BookingController.getAvailableTimeSlots);
 exports.BookingRouter = router;

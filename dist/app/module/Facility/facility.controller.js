@@ -16,18 +16,38 @@ exports.FacilityController = void 0;
 const facility_service_1 = require("./facility.service");
 const sendResponse_1 = __importDefault(require("../../utils/sendResponse"));
 const catchAsync_1 = __importDefault(require("../../utils/catchAsync"));
-const getAllFacility = (0, catchAsync_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield facility_service_1.FacilityService.getAllFacilityFromDB();
+const http_status_1 = __importDefault(require("http-status"));
+const getAllFacility = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const query = req.query;
+    const result = yield facility_service_1.FacilityService.getAllFacilityFromDB(query);
     return (0, sendResponse_1.default)(res, {
-        success: result.length ? true : false,
-        statusCode: result.length ? 200 : 404,
-        message: result.length
-            ? 'Facilities retrieved successfully'
-            : 'No Data Found',
+        statusCode: http_status_1.default.OK,
+        success: true,
+        message: 'Facilities are retrieved succesfully',
+        meta: result.meta,
+        data: result.result,
+    });
+}));
+const getSingleFacility = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a;
+    const result = yield facility_service_1.FacilityService.getSingleFacilityFromDB((_a = req.params) === null || _a === void 0 ? void 0 : _a.id);
+    return (0, sendResponse_1.default)(res, {
+        success: true,
+        statusCode: 200,
+        message: 'Facility is retrive successfully',
         data: result,
     });
 }));
-const createFacility = (0, catchAsync_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+const getTopFacility = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield facility_service_1.FacilityService.getTopFacilityFromDB();
+    return (0, sendResponse_1.default)(res, {
+        success: true,
+        statusCode: 200,
+        message: 'Top Facility is retrive successfully',
+        data: result,
+    });
+}));
+const createFacility = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const data = req.body;
     const result = yield facility_service_1.FacilityService.createFacilityIntoDB(data);
     return (0, sendResponse_1.default)(res, {
@@ -37,7 +57,7 @@ const createFacility = (0, catchAsync_1.default)((req, res, next) => __awaiter(v
         data: result,
     });
 }));
-const updateFacility = (0, catchAsync_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+const updateFacility = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
     const updatedData = req.body;
     const result = yield facility_service_1.FacilityService.updateFacilityIntoDB(id, updatedData);
@@ -48,7 +68,7 @@ const updateFacility = (0, catchAsync_1.default)((req, res, next) => __awaiter(v
         data: result,
     });
 }));
-const deleteFacility = (0, catchAsync_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+const deleteFacility = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
     const result = yield facility_service_1.FacilityService.deleteFacilityFromDB(id);
     return (0, sendResponse_1.default)(res, {
@@ -63,4 +83,6 @@ exports.FacilityController = {
     updateFacility,
     deleteFacility,
     getAllFacility,
+    getSingleFacility,
+    getTopFacility,
 };

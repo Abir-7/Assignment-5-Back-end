@@ -13,4 +13,7 @@ exports.default = {
     bcrypt_sault_round: process.env.BCRYPT_SAULT_ROUND,
     jwt_secrete_key: process.env.JWT_SECRETE_KEY,
     jwt_secrete_date: process.env.JWT_SECRETE_DATE,
+    Store_ID: process.env.Store_ID,
+    Signature_Key: process.env.Signature_Key,
+    Api_EndPoint: process.env.Api_EndPoint,
 };

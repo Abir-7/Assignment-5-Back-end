@@ -17,7 +17,7 @@ const catchAsync_1 = __importDefault(require("../../utils/catchAsync"));
 const booking_service_1 = require("./booking.service");
 const sendResponse_1 = __importDefault(require("../../utils/sendResponse"));
 const booking_utils_1 = require("./booking.utils");
-const createBooking = (0, catchAsync_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+const createBooking = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.user;
     const data = req.body;
     data.user = id;
@@ -25,11 +25,11 @@ const createBooking = (0, catchAsync_1.default)((req, res, next) => __awaiter(vo
     return (0, sendResponse_1.default)(res, {
         success: true,
         statusCode: 200,
-        message: 'Booking created successfully',
+        message: 'Booking placed. Redirecting to payment page',
         data: result,
     });
 }));
-const getAllBooking = (0, catchAsync_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+const getAllBooking = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield booking_service_1.BookingService.getAllBookingFromDb();
     return (0, sendResponse_1.default)(res, {
         success: result.length ? true : false,
@@ -40,19 +40,28 @@ const getAllBooking = (0, catchAsync_1.default)((req, res, next) => __awaiter(vo
         data: result,
     });
 }));
-const getAllBookingByUser = (0, catchAsync_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+const getAllBookingByUser = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.user;
     const result = yield booking_service_1.BookingService.getAllBookingByUserFromDb(id);
     return (0, sendResponse_1.default)(res, {
-        success: result.length ? true : false,
-        statusCode: result.length ? 200 : 404,
-        message: result.length
-            ? 'Bookings retrieved successfully'
-            : 'No Data Found',
+        success: true,
+        statusCode: 200,
+        message: 'Bookings retrieved successfully',
         data: result,
     });
 }));
-const deleteBookingByUser = (0, catchAsync_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+const getSingleBookingByUser = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id: bID } = req.params;
+    const { id } = req.user;
+    const result = yield booking_service_1.BookingService.getSingleBookingByUserFromDb(id, bID);
+    return (0, sendResponse_1.default)(res, {
+        success: true,
+        statusCode: 200,
+        message: 'Bookings details retrieved successfully',
+        data: result,
+    });
+}));
+const deleteBookingByUser = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id: userID } = req.user;
     const { id: bookingID } = req.params;
     const result = yield booking_service_1.BookingService.deleteBookingByUserFromDb(userID, bookingID);
@@ -63,12 +72,13 @@ const deleteBookingByUser = (0, catchAsync_1.default)((req, res, next) => __awai
         data: result,
     });
 }));
-const getAvailableTimeSlots = (0, catchAsync_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    var _a;
+const getAvailableTimeSlots = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a, _b;
     const formattedDate = (0, booking_utils_1.getFormattedDate)();
-    const date = ((_a = req.query) === null || _a === void 0 ? void 0 : _a.date) || formattedDate;
+    const facility = (_a = req.query) === null || _a === void 0 ? void 0 : _a.facility;
+    const date = ((_b = req.query) === null || _b === void 0 ? void 0 : _b.date) || formattedDate;
     const covertedDate = (0, booking_utils_1.convertDate)(date);
-    const result = yield booking_service_1.BookingService.getAvailableTimeSlotsFromBooking(covertedDate);
+    const result = yield booking_service_1.BookingService.getAvailableTimeSlotsFromBooking(covertedDate, facility);
     return (0, sendResponse_1.default)(res, {
         success: true,
         statusCode: 200,
@@ -82,4 +92,5 @@ exports.BookingController = {
     getAllBookingByUser,
     deleteBookingByUser,
     getAvailableTimeSlots,
+    getSingleBookingByUser,
 };

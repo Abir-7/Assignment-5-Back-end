@@ -16,6 +16,8 @@ exports.bookingSchema = new mongoose_1.Schema({
     },
     date: { type: String, required: [true, 'Booking date is required'] },
     startTime: { type: String, required: [true, 'Start time is required'] },
+    txnID: { type: String, required: [true, 'TxnID is required'] },
+    paymentStatus: { type: String, default: 'unpaid' },
     endTime: { type: String, required: [true, 'End time is required'] },
     payableAmount: {
         type: Number,

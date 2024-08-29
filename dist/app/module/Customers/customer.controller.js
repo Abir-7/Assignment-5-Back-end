@@ -12,28 +12,32 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.userController = void 0;
+exports.customerController = void 0;
 const catchAsync_1 = __importDefault(require("../../utils/catchAsync"));
 const sendResponse_1 = __importDefault(require("../../utils/sendResponse"));
-const user_service_1 = require("./user.service");
-const createCustomer = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { password, customer } = req.body;
-    const result = yield user_service_1.userService.createCustomerIntoDb(customer, password);
+const customer_service_1 = require("./customer.service");
+const updateCustomer = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { email } = req.params;
+    const data = req.body;
+    const result = yield customer_service_1.customerService.updateCustomerFromDB(email, data);
     (0, sendResponse_1.default)(res, {
         data: result,
         statusCode: 200,
         success: true,
-        message: 'User Created Successfully',
+        message: 'User updated Successfully',
     });
 }));
-const createAdmin = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { password, admin } = req.body;
-    const result = yield user_service_1.userService.createAdminIntoDb(admin, password);
+const getCustomerInfo = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const userData = req.user;
+    const result = yield customer_service_1.customerService.getCustomerInfoFromDb(userData);
     (0, sendResponse_1.default)(res, {
         data: result,
         statusCode: 200,
         success: true,
-        message: 'Admin Created Successfully',
+        message: 'Customer info is fetched successfully',
     });
 }));
-exports.userController = { createCustomer, createAdmin };
+exports.customerController = {
+    updateCustomer,
+    getCustomerInfo,
+};

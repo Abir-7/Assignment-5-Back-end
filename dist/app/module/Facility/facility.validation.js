@@ -20,6 +20,11 @@ exports.facilityZodValidationSchema = zod_1.z.object({
             required_error: 'Location is required',
             invalid_type_error: 'Location must be a string',
         }),
+        photo: zod_1.z
+            .string({
+            invalid_type_error: 'Photo must be a string',
+        })
+            .optional(),
     }),
 });
 exports.updateFacilityZodValidationSchema = zod_1.z.object({

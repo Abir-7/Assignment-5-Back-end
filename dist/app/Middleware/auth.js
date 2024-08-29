@@ -24,17 +24,17 @@ const auth = (...userRole) => {
         const tokenData = req.headers.authorization;
         const token = tokenData === null || tokenData === void 0 ? void 0 : tokenData.split(' ')[1];
         if (!token) {
-            throw new AppError_1.default(http_status_1.default.UNAUTHORIZED, 'You have no access to this route');
+            throw new AppError_1.default(http_status_1.default.UNAUTHORIZED, 'You have no access to this route1');
         }
         const decoded = jsonwebtoken_1.default.verify(token, config_1.default.jwt_secrete_key);
         const { role, email } = decoded;
         const user = yield user_model_1.User.findOne({ email: email });
         //check user exixt or not
         if (!user) {
-            throw new AppError_1.default(http_status_1.default.NOT_FOUND, 'You have no access to this route', '');
+            throw new AppError_1.default(http_status_1.default.NOT_FOUND, 'You have no access to this route2', '');
         }
         if (userRole && !userRole.includes(role)) {
-            throw new AppError_1.default(http_status_1.default.UNAUTHORIZED, 'You have no access to this route', '');
+            throw new AppError_1.default(http_status_1.default.UNAUTHORIZED, 'You have no access to this route3', '');
         }
         req.user = decoded;
         next();

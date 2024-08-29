@@ -18,6 +18,8 @@ const facility_model_1 = require("../Facility/facility.model");
 const booking_model_1 = require("./booking.model");
 const AppError_1 = __importDefault(require("../../errors/AppError"));
 const booking_utils_1 = require("./booking.utils");
+const payment_utils_1 = require("../Payment/payment.utils");
+const customer_model_1 = require("../Customers/customer.model");
 //create booking
 const createBookingIntoDb = (data) => __awaiter(void 0, void 0, void 0, function* () {
     //check if facility exixt
@@ -44,9 +46,26 @@ const createBookingIntoDb = (data) => __awaiter(void 0, void 0, void 0, function
     //calculate payable  ammount for booking
     const totalTime = (0, booking_utils_1.getTotalTimeInHour)(data.startTime, data.endTime);
     data.payableAmount = totalTime * isFacilityExist.pricePerHour;
+    const customer = yield customer_model_1.Customer.findOne({ user: data.user });
+    console.log(customer);
+    const customerData = {
+        name: `${customer === null || customer === void 0 ? void 0 : customer.name.firstName} ${customer === null || customer === void 0 ? void 0 : customer.name.middleName} ${customer === null || customer === void 0 ? void 0 : customer.name.lastName}`,
+        email: customer === null || customer === void 0 ? void 0 : customer.email,
+        address: customer === null || customer === void 0 ? void 0 : customer.address,
+        phone: customer === null || customer === void 0 ? void 0 : customer.phone,
+    };
+    const bookingData = data;
+    const txn = `TXN-${Date.now()}`;
     //create booking
-    const result = yield booking_model_1.Booking.create(data);
-    return result;
+    const result = (yield (yield booking_model_1.Booking.create(Object.assign(Object.assign({}, data), { txnID: txn }))).populate('facility')).populate('user');
+    const paymentInfo = yield (0, payment_utils_1.initiatePayment)({
+        bookingData,
+        txn,
+        customerData,
+        bookingId: (yield result)._id,
+    });
+    console.log(data, paymentInfo.data);
+    return Object.assign(Object.assign({}, result), { payLink: paymentInfo.data.payment_url });
 });
 //get all booking by admin
 const getAllBookingFromDb = () => __awaiter(void 0, void 0, void 0, function* () {
@@ -57,7 +76,25 @@ const getAllBookingFromDb = () => __awaiter(void 0, void 0, void 0, function* ()
 const getAllBookingByUserFromDb = (id) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield booking_model_1.Booking.find({
         user: id,
-    }).populate('facility');
+    })
+        .populate('facility')
+        .populate({
+        path: 'user',
+        select: 'email', // Specify the fields you want to include
+    });
+    return result;
+});
+//get single booking by user
+const getSingleBookingByUserFromDb = (id, bID) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield booking_model_1.Booking.findOne({
+        user: id,
+        _id: bID,
+    })
+        .populate('facility')
+        .populate({
+        path: 'user',
+        select: 'email', // Specify the fields you want to include
+    });
     return result;
 });
 //cencel booking
@@ -73,9 +110,9 @@ const deleteBookingByUserFromDb = (userID, bookingID) => __awaiter(void 0, void 
     return result;
 });
 //get available time
-const getAvailableTimeSlotsFromBooking = (givenDate) => __awaiter(void 0, void 0, void 0, function* () {
+const getAvailableTimeSlotsFromBooking = (givenDate, id) => __awaiter(void 0, void 0, void 0, function* () {
     const date = givenDate;
-    const bookings = yield booking_model_1.Booking.find({ date: date }).select([
+    const bookings = yield booking_model_1.Booking.find({ date: date, facility: id }).select([
         'date',
         'startTime',
         'endTime',
@@ -89,4 +126,5 @@ exports.BookingService = {
     getAllBookingByUserFromDb,
     deleteBookingByUserFromDb,
     getAvailableTimeSlotsFromBooking,
+    getSingleBookingByUserFromDb,
 };

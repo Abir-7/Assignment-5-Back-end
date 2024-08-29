@@ -27,6 +27,10 @@ exports.facilitySchema = new mongoose_1.Schema({
         type: Number,
         required: [true, 'Price per hour is required'],
     },
+    photo: {
+        type: String,
+        default: 'https://i.ibb.co/BnhCZc5/sport-club-sports-equipment-pink-background-vector-21104652.webp',
+    },
     location: { type: String, required: [true, 'Location is required'] },
     isDeleted: { type: Boolean, default: false },
 });
@@ -45,7 +49,7 @@ exports.facilitySchema.statics.isFacitityExist = (id) => __awaiter(void 0, void 
         return true;
     }
     else {
-        false;
+        return false;
     }
 });
 exports.Facility = (0, mongoose_1.model)('Facility', exports.facilitySchema);

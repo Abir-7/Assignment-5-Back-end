@@ -8,23 +8,18 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.AuthController = void 0;
-const auth_service_1 = require("./auth.service");
-const catchAsync_1 = __importDefault(require("../../utils/catchAsync"));
-const loginUser = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const loginData = req.body;
-    const result = yield auth_service_1.AuthService.userLogin(loginData);
-    return res.status(200).send({
-        success: true,
-        statusCode: 200,
-        message: 'User logged in successfully',
-        data: { user: result.user, token: result.accessToken },
-    });
-}));
-exports.AuthController = {
-    loginUser,
+const user_model_1 = require("../module/user/user.model");
+const superUser = {
+    email: 'superadmin@gmail.com',
+    password: 'super123',
+    role: 'admin',
 };
+const seedSuperAdmin = () => __awaiter(void 0, void 0, void 0, function* () {
+    //when database is connected, we will check is there any user who is super admin
+    const isSuperAdminExits = yield user_model_1.User.findOne({ role: 'admin' });
+    if (!isSuperAdminExits) {
+        yield user_model_1.User.create(superUser);
+    }
+});
+exports.default = seedSuperAdmin;

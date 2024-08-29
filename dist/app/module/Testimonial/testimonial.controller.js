@@ -12,19 +12,26 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.AuthController = void 0;
-const auth_service_1 = require("./auth.service");
+exports.testimonialController = void 0;
 const catchAsync_1 = __importDefault(require("../../utils/catchAsync"));
-const loginUser = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const loginData = req.body;
-    const result = yield auth_service_1.AuthService.userLogin(loginData);
-    return res.status(200).send({
+const sendResponse_1 = __importDefault(require("../../utils/sendResponse"));
+const testimonial_service_1 = require("./testimonial.service");
+const saveTestimonial = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield testimonial_service_1.testimonialService.saveTestimonialIntoDb(req.body);
+    return (0, sendResponse_1.default)(res, {
         success: true,
         statusCode: 200,
-        message: 'User logged in successfully',
-        data: { user: result.user, token: result.accessToken },
+        message: 'Review added successfully',
+        data: result,
     });
 }));
-exports.AuthController = {
-    loginUser,
-};
+const getAllTestimonial = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield testimonial_service_1.testimonialService.getAllTestimonialFromDb();
+    return (0, sendResponse_1.default)(res, {
+        success: true,
+        statusCode: 200,
+        message: 'Review are fetched successfully',
+        data: result,
+    });
+}));
+exports.testimonialController = { saveTestimonial, getAllTestimonial };

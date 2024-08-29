@@ -1,0 +1,10 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.customerRoute = void 0;
+const express_1 = require("express");
+const customer_controller_1 = require("./customer.controller");
+const auth_1 = require("../../Middleware/auth");
+const router = (0, express_1.Router)();
+router.patch('/:email', customer_controller_1.customerController.updateCustomer);
+router.get('/me', (0, auth_1.auth)('admin', 'user'), customer_controller_1.customerController.getCustomerInfo);
+exports.customerRoute = router;
