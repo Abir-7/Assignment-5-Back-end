@@ -14,7 +14,7 @@ router.get('/topFacilities', FacilityController.getTopFacility);
 router.get('/:id', FacilityController.getSingleFacility);
 router.post(
   '/',
-  // auth('admin'),
+  auth('admin'),
   validationMiddleware(facilityZodValidationSchema),
   FacilityController.createFacility,
 );

@@ -13,9 +13,7 @@ const router = (0, express_1.Router)();
 router.get('/', facility_controller_1.FacilityController.getAllFacility);
 router.get('/topFacilities', facility_controller_1.FacilityController.getTopFacility);
 router.get('/:id', facility_controller_1.FacilityController.getSingleFacility);
-router.post('/', 
-// auth('admin'),
-(0, validationMiddleware_1.default)(facility_validation_1.facilityZodValidationSchema), facility_controller_1.FacilityController.createFacility);
+router.post('/', (0, auth_1.auth)('admin'), (0, validationMiddleware_1.default)(facility_validation_1.facilityZodValidationSchema), facility_controller_1.FacilityController.createFacility);
 router.put('/:id', (0, auth_1.auth)('admin'), (0, validationMiddleware_1.default)(facility_validation_1.updateFacilityZodValidationSchema), facility_controller_1.FacilityController.updateFacility);
 router.delete('/:id', (0, auth_1.auth)('admin'), facility_controller_1.FacilityController.deleteFacility);
 exports.FacilityRouter = router;
